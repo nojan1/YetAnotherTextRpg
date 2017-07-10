@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Cuit;
+using System;
+using YetAnotherTextRpg.Forms;
 
 namespace YetAnotherTextRpg
 {
@@ -6,7 +8,7 @@ namespace YetAnotherTextRpg
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            new CuitApplication().Run<MenuForm>();
         }
     }
 }
