@@ -6,6 +6,7 @@ using System.Text;
 using Cuit;
 using Cuit.Control.Behaviors;
 using YetAnotherTextRpg.Controls;
+using YetAnotherTextRpg.Managers;
 
 namespace YetAnotherTextRpg.Forms
 {
@@ -48,6 +49,13 @@ namespace YetAnotherTextRpg.Forms
                     base.HandleKeypress(key);
                     break;
             }
+        }
+
+        public override void OnLoaded()
+        {
+            base.OnLoaded();
+
+            output.Text = GameManager.Instance.ActiveScene.Text;
         }
 
         private bool HandleCommand(string command)

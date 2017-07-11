@@ -25,6 +25,7 @@ namespace YetAnotherTextRpg.Managers
 
         public bool HasLoadedState => State != null;
         public GameState State { get; private set; }
+        public Scene ActiveScene { get; set; }
 
         public void NewGame()
         {
@@ -37,6 +38,9 @@ Can't really hurt anyone with this
 
 Sad kitty :/"
             });
+
+            State.CurrentScene = "start";
+            ActiveScene = Game.SceneParser.GetScene(State.CurrentScene);
         }
 
         public void LoadGame(int slot)
