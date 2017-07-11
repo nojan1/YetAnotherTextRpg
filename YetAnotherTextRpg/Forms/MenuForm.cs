@@ -17,24 +17,23 @@ namespace YetAnotherTextRpg.Forms
         Exit
     }
 
-    class MenuForm : FormScreen
+    class MenuForm : SingleFocusControlFormScreen
     {
         private Listbox<MenuAction> _menuList;
 
         public override void InstantiateComponents()
         {
+            _menuList = new Listbox<MenuAction>((Application.Width / 2) - 15, 11);
+            _menuList.Width = 30;
+            //_menuList.Height = 8;
+            _menuList.SelectionChanged += _menuList_SelectionChanged;
+            Controls.Add(_menuList);
+
             var title = "Welcome to YetAnotherTextRPG";
             var titleLabel = new Label((Application.Width / 2) - (title.Length / 2), 8);
             titleLabel.Text = title;
             titleLabel.Foreground = ConsoleColor.Green;
-            Controls.Add(titleLabel);
-
-            _menuList = new Listbox<MenuAction>((Application.Width / 2) - 15, 12);
-            _menuList.Width = 30;
-            _menuList.Height = 5;
-            _menuList.SelectionChanged += _menuList_SelectionChanged;
-            Controls.Add(_menuList);
-        }
+            Controls.Add(titleLabel);        }
 
         private void _menuList_SelectionChanged(object sender, MenuAction e)
         {
@@ -64,10 +63,11 @@ namespace YetAnotherTextRpg.Forms
             _menuList.ClearSelection();
         }
 
-        public override void OnLoaded()
+        public override void OnGotFocus()
         {
-            base.OnLoaded();
+            base.OnGotFocus();
 
+            _menuList.Items.Clear();
             if (GameManager.Instance.HasLoadedState)
             {
                 _menuList.Items.Add(MenuAction.Resume);
@@ -80,6 +80,7 @@ namespace YetAnotherTextRpg.Forms
 
             _menuList.Items.Add(MenuAction.Load);
             _menuList.Items.Add(MenuAction.Exit);
+
         }
     }
 }

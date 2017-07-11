@@ -9,24 +9,25 @@ using YetAnotherTextRpg.Controls;
 
 namespace YetAnotherTextRpg.Forms
 {
-    class GameScreen : IScreen, ILoaded
+    class GameScreen : SingleFocusControlFormScreen
     {
-        public CuitApplication Application { get; set; }
-        public event EventHandler Loaded = delegate { };
+        private Textbox command;
+        private OutputBox output;
 
-        private readonly Textbox command;
-        private readonly OutputBox output;
-
-        public GameScreen()
+        public override void InstantiateComponents()
         {
+            base.InstantiateComponents();
+
             command = new Textbox(5, 2);
             command.Width = Console.BufferWidth - 10;
+            Controls.Add(command);
 
             output = new OutputBox(6, 6);
             output.Width = Console.BufferWidth - 12;
+            Controls.Add(output);
         }
 
-        public void HandleKeypress(ConsoleKeyInfo key)
+        public override void HandleKeypress(ConsoleKeyInfo key)
         {
             switch (key.Key)
             {
@@ -44,24 +45,9 @@ namespace YetAnotherTextRpg.Forms
                     Application.SwitchTo<InventoryForm>();
                     break;
                 default:
-                    command.HandleKeypress(key);
+                    base.HandleKeypress(key);
                     break;
             }
-        }
-
-        public void Update(Screenbuffer buffer, bool force)
-        {
-            if(command.IsDirty || force) command.Draw(buffer);
-            if(output.IsDirty || force) output.Draw(buffer);
-
-            command.IsDirty = false; output.IsDirty = false;
-        }
-
-        public void OnLoaded()
-        {
-            Loaded(this, new EventArgs());
-
-            command.OnGotFocus();
         }
 
         private bool HandleCommand(string command)
