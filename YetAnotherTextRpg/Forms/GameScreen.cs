@@ -7,6 +7,8 @@ using Cuit;
 using Cuit.Control.Behaviors;
 using YetAnotherTextRpg.Controls;
 using YetAnotherTextRpg.Managers;
+using YetAnotherTextRpg.Game;
+using System.Text.RegularExpressions;
 
 namespace YetAnotherTextRpg.Forms
 {
@@ -14,6 +16,8 @@ namespace YetAnotherTextRpg.Forms
     {
         private Textbox command;
         private OutputBox output;
+
+        private CommandParser _commandParser = new CommandParser();
 
         public override void InstantiateComponents()
         {
@@ -36,14 +40,18 @@ namespace YetAnotherTextRpg.Forms
                     Application.GoBack();
                     break;
                 case ConsoleKey.Enter:
-                    if (HandleCommand(command.Text.Trim()))
+                    if (command.Text.Trim() == "inventory")
                     {
+                        Application.SwitchTo<InventoryForm>();
                         command.Text = "";
                     }
-
-                    break;
-                case ConsoleKey.I:
-                    Application.SwitchTo<InventoryForm>();
+                    else
+                    {
+                        if (HandleCommand(command.Text.Trim()))
+                        {
+                            command.Text = "";
+                        }
+                    }
                     break;
                 default:
                     base.HandleKeypress(key);
@@ -54,15 +62,60 @@ namespace YetAnotherTextRpg.Forms
         public override void OnLoaded()
         {
             base.OnLoaded();
+            UpdateDisplay();
+        }
 
-            output.Text = GameManager.Instance.ActiveScene.Text;
+        private void UpdateDisplay()
+        {
+            var text = GameManager.Instance.ActiveScene.Text;
+
+            var blocks = Regex.Matches(text, @"{(.*?) (.*?)}(([^(\r\n|\r|\n)]*(\r\n|\r|\n)+)+){\/\1}", RegexOptions.Multiline);
+            foreach (Match block in blocks)
+            {
+                if (block.Groups.Count >= 4)
+                {
+                    var blockType = block.Groups[1].Value.ToLower();
+                    var expression = block.Groups[2].Value;
+                    var body = block.Groups[3].Value;
+
+                    if (blockType == "if")
+                    {
+                        var testResult = EmbeddedFunctionsHelper.Conditional(expression);
+                        var bodyParts = body.Split(new string[] { "{else}" }, StringSplitOptions.None);
+
+                        if (testResult && bodyParts.Length == 1)
+                        {
+                            text = text.Replace(block.Value, bodyParts[0].Trim());
+                        }
+                        else if (!testResult && bodyParts.Length == 2)
+                        {
+                            text = text.Replace(block.Value, bodyParts[1].Trim());
+                        }
+                    }
+                }
+            }
+
+            output.Text = text;
         }
 
         private bool HandleCommand(string command)
         {
+            string sceneBefore = GameManager.Instance.ActiveScene.Name;
+
             output.AddOutput(command);
 
-            return true;
+            var result = _commandParser.ProcessCommand(command);
+            if (!string.IsNullOrWhiteSpace(result.Output))
+            {
+                output.AddOutput(result.Output);
+            }
+
+            if (result.Succeeded && sceneBefore != GameManager.Instance.ActiveScene.Name)
+            {
+                UpdateDisplay();
+            }
+
+            return result.Succeeded;
         }
     }
 }

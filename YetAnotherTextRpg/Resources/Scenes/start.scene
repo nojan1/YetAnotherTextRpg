@@ -3,8 +3,12 @@ A beatiful little area full of crap
 
 There seems to be something towards the north
 
-[ITEMS]
+{if !PickupInScene.Invoke("forest_gate_key")}
+There seems to be a key on the ground
+{/if}
 
+[PICKUPS]
+(key, forest_gate_key)
 
 [EXITS]
 (North, forest_gate)

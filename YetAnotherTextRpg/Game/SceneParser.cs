@@ -66,7 +66,7 @@ namespace YetAnotherTextRpg.Game
 
         private static void ParseExits(string content, Scene scene)
         {
-            var exitLines = Regex.Split(content, @"\((.*?)\)").Where(l => !string.IsNullOrWhiteSpace(l)).ToArray();
+            var exitLines = Regex.Split(content, @"\((.*)\)").Where(l => !string.IsNullOrWhiteSpace(l)).ToArray();
 
             foreach(var line in exitLines)
             {

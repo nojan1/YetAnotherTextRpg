@@ -30,16 +30,12 @@ namespace YetAnotherTextRpg.Managers
         public void NewGame()
         {
             State = new GameState();
-            State.Inventory.Add(new Item
-            {
-                Name = "Sword",
-                Description = @"A tiny sword...
-Can't really hurt anyone with this
+            SwitchScene("start");
+        }
 
-Sad kitty :/"
-            });
-
-            State.CurrentScene = "start";
+        public void SwitchScene(string sceneName)
+        {
+            State.CurrentScene = sceneName;
             ActiveScene = Game.SceneParser.GetScene(State.CurrentScene);
         }
 
