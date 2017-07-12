@@ -9,7 +9,6 @@ namespace YetAnotherTextRpg.Models
         public string Name { get; set; }
         public ICollection<Exit> Exits { get; set; } = new List<Exit>();
         public string Text { get; set; }
-
-
+        public ICollection<Pickup> Pickups { get; set; } = new List<Pickup>();
     }
 }

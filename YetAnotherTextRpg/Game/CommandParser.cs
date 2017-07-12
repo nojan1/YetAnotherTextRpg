@@ -17,7 +17,8 @@ namespace YetAnotherTextRpg.Game
         {
             _verbHandlers = new Dictionary<string, Func<string[], CommandParseResult>>()
             {
-                {"go", HandleGo }
+                {"go", HandleGo },
+                {"pickup", HandlePickup }
             };
         }
 
@@ -51,6 +52,21 @@ namespace YetAnotherTextRpg.Game
 
             GameManager.Instance.SwitchScene(exit.To);
             return new CommandParseResult { Succeeded = true };
+        }
+
+        private CommandParseResult HandlePickup(string[] args)
+        {
+            var pickup = GameManager.Instance.ActiveScene.Pickups.FirstOrDefault(p => p.TriggerWord == args[0].ToLower());
+            if(pickup == null)
+                return new CommandParseResult { Succeeded = false, Output = "No such thing to pickup" };
+
+            GameManager.Instance.ActiveScene.Pickups.Remove(pickup);
+            GameManager.Instance.State.Variables[$"PICKUP-{pickup.ItemId}"] = "yes";
+
+            var item = ItemParser.ParseItem(pickup.ItemId);
+            GameManager.Instance.State.Inventory.Add(item);
+
+            return new CommandParseResult { Succeeded = true , Output = $"Picked up \"{item.Name}\""};
         }
     }
 }

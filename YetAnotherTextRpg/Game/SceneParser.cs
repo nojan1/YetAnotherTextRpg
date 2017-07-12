@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using YetAnotherTextRpg.Managers;
 using YetAnotherTextRpg.Models;
 
 namespace YetAnotherTextRpg.Game
@@ -15,7 +16,7 @@ namespace YetAnotherTextRpg.Game
         private static readonly Dictionary<string, Action<string, Scene>> _sectionParsingFunctions = new Dictionary<string, Action<string, Scene>>
         {
             { "TEXT",  ParseText},
-            { "ITEMS",  ParseItems},
+            { "PICKUPS",  ParsePickups},
             { "EXITS",  ParseExits},
         };
 
@@ -59,18 +60,28 @@ namespace YetAnotherTextRpg.Game
             scene.Text = content;
         }
 
-        private static void ParseItems(string content, Scene scene)
+        private static void ParsePickups(string content, Scene scene)
         {
+            foreach (var parts in ParseDataLines(content))
+            {
+                if (parts.Length < 2)
+                    continue;
 
+                if (!GameManager.Instance.State.IsPickupPickedUp(parts[1]))
+                {
+                    scene.Pickups.Add(new Pickup
+                    {
+                        TriggerWord = parts[0],
+                        ItemId = parts[1]
+                    });
+                }
+            }
         }
 
         private static void ParseExits(string content, Scene scene)
         {
-            var exitLines = Regex.Split(content, @"\((.*)\)").Where(l => !string.IsNullOrWhiteSpace(l)).ToArray();
-
-            foreach(var line in exitLines)
+            foreach(var parts in ParseDataLines(content))
             {
-                var parts = line.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
                 if (parts.Length < 2)
                     continue;
 
@@ -84,6 +95,12 @@ namespace YetAnotherTextRpg.Game
                     Conditional = parts.Length == 3 ? parts[2] : null
                 });
             }
+        }
+
+        private static IEnumerable<string[]> ParseDataLines(string lines)
+        {
+            return Regex.Split(lines, @"\((.*)\)").Where(l => !string.IsNullOrWhiteSpace(l))
+                .Select(line => line.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray());
         }
     }
 }

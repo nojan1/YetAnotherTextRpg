@@ -83,13 +83,16 @@ namespace YetAnotherTextRpg.Forms
                         var testResult = EmbeddedFunctionsHelper.Conditional(expression);
                         var bodyParts = body.Split(new string[] { "{else}" }, StringSplitOptions.None);
 
-                        if (testResult && bodyParts.Length == 1)
+                        if (testResult && bodyParts.Length >= 1)
                         {
                             text = text.Replace(block.Value, bodyParts[0].Trim());
                         }
                         else if (!testResult && bodyParts.Length == 2)
                         {
                             text = text.Replace(block.Value, bodyParts[1].Trim());
+                        }else
+                        {
+                            text = text.Replace(block.Value, "");
                         }
                     }
                 }

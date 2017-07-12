@@ -23,7 +23,7 @@ namespace YetAnotherTextRpg.Game
             {
                 new Func<string, bool>((id) => GameManager.Instance.State.Inventory.Any(i => i.Id == id)),
                 new Func<string, string>((key) => GameManager.Instance.State.Variables.FirstOrDefault(x => x.Key == key).Value),
-                new Func<string, bool>((id) => GameManager.Instance.State.Variables.ContainsKey($"PICKUP-{id}"))
+                new Func<string, bool>((id) => GameManager.Instance.State.IsPickupPickedUp(id))
             };
 
             var lambda = DynamicExpressionParser.ParseLambda(false, parameters, null, expression);
