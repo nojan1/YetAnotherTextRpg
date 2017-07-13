@@ -3,7 +3,7 @@ A beatiful little area full of crap
 
 There seems to be something towards the north
 
-{if !PickupInScene.Invoke("forest_gate_key")}
+{if !Pickup.InScene("forest_gate_key")}
 There seems to be a key on the ground
 {/if}
 

@@ -9,8 +9,6 @@ namespace YetAnotherTextRpg.Managers
 {
     class GameManager
     {
-        private const string SAVES_FOLDER = "saves";
-
         private static GameManager _instance;
         public static GameManager Instance
         {
@@ -27,6 +25,8 @@ namespace YetAnotherTextRpg.Managers
         public GameState State { get; private set; }
         public Scene ActiveScene { get; set; }
 
+        private GameManager() { }
+
         public void NewGame()
         {
             State = new GameState();
@@ -37,22 +37,6 @@ namespace YetAnotherTextRpg.Managers
         {
             State.CurrentScene = sceneName;
             ActiveScene = Game.SceneParser.GetScene(State.CurrentScene);
-        }
-
-        public void LoadGame(int slot)
-        {
-            var filename = Path.Combine(SAVES_FOLDER, $"{slot}.save");
-            var data = File.ReadAllText(filename);
-
-            State = JsonConvert.DeserializeObject<GameState>(data);
-        }
-
-        public void SaveGame(int slot)
-        {
-            var filename = Path.Combine(SAVES_FOLDER, $"{slot}.save");
-            var data = JsonConvert.SerializeObject(State);
-
-            File.WriteAllText(filename, data);
         }
     }
 }

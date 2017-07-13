@@ -3,7 +3,7 @@ Your path is blocked by a gate.
 
 You can see a forest in the distance to the west
 
-{if InInventory.Invoke("forest_gate_key")}
+{if Inventory.Contains("forest_gate_key")}
 Your rusty key might fit this lock
 {else}
 You should come back when you have the key
@@ -13,7 +13,7 @@ You should come back when you have the key
 (sword)
 
 [EXITS]
-(West, forest_start, InInventory.Invoke("forest_gate_key"))
+(West, forest_start, Inventory.Contains("forest_gate_key"))
 (South, start)
 
 [EOF]

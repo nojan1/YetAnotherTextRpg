@@ -14,16 +14,16 @@ namespace YetAnotherTextRpg.Game
         {
             var parameters = new ParameterExpression[]
             {
-                Expression.Parameter(typeof(Func<string, bool>), "InInventory"),
-                Expression.Parameter(typeof(Func<string, string>), "GetVariable"),
-                Expression.Parameter(typeof(Func<string, bool>), "PickupInScene")
+                Expression.Parameter(typeof(InventoryParameterHelper), "Inventory"),
+                Expression.Parameter(typeof(VariablesParameterHelper), "Variables"),
+                Expression.Parameter(typeof(PickupsParameterHelper), "Pickup")
             };
 
             var values = new object[]
             {
-                new Func<string, bool>((id) => GameManager.Instance.State.Inventory.Any(i => i.Id == id)),
-                new Func<string, string>((key) => GameManager.Instance.State.Variables.FirstOrDefault(x => x.Key == key).Value),
-                new Func<string, bool>((id) => GameManager.Instance.State.IsPickupPickedUp(id))
+                new InventoryParameterHelper(),
+                new VariablesParameterHelper(),
+                new PickupsParameterHelper()
             };
 
             var lambda = DynamicExpressionParser.ParseLambda(false, parameters, null, expression);
