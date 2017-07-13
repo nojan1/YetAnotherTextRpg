@@ -1,5 +1,6 @@
 ﻿{
   "Id": "forest_gate_key",
   "Name": "Rusty key",
+  "CanEquip": "false",
   "Description": "A rusty key that has the words \"Smith family forest gate key\" written on it"
 }

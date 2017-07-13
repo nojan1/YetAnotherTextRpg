@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<Scene>
+  <Text>
+A beatiful little area full of crap
+
+There seems to be something towards the north
+
+{if !Pickup.InScene("forest_gate_key")}
+There seems to be a key on the ground
+{/if}
+  </Text>
+  <Triggers>
+    <Trigger Phrase="scratch .*"
+             Conditional="" 
+             Action='1 == 1 ? Output.Set("Oh that felt nice") : false'/>
+  </Triggers>
+  <Exits>
+    <Exit Direction="North"
+          To="forest_gate"
+          Conditional="" />
+  </Exits>
+  <Pickups>
+    <Pickup Phrase="key"
+            ItemId="forest_gate_key" />
+  </Pickups>
+</Scene>

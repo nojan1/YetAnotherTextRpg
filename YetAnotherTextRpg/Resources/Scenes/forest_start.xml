@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Scene>
+  <Text>
+Trees trees, nothing but trees
+
+There is a open gate to the east
+  </Text>
+  <Exits>
+    <Exit Direction="East"
+          To="forest_gate" />
+  </Exits>
+</Scene>

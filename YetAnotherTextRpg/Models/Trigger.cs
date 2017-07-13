@@ -5,12 +5,12 @@ using System.Xml.Serialization;
 
 namespace YetAnotherTextRpg.Models
 {
-    public class Exit
+    public class Trigger
     {
         [XmlAttribute]
-        public Direction Direction { get; set; }
+        public string Phrase { get; set; }
         [XmlAttribute]
-        public string To { get; set; }
+        public string Action { get; set; }
         [XmlAttribute]
         public string Conditional { get; set; }
     }

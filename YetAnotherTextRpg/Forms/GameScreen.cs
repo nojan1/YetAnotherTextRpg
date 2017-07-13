@@ -80,7 +80,7 @@ namespace YetAnotherTextRpg.Forms
 
                     if (blockType == "if")
                     {
-                        var testResult = EmbeddedFunctionsHelper.Conditional(expression);
+                        var testResult = EmbeddedFunctionsHelper.Conditional(expression).Success;
                         var bodyParts = body.Split(new string[] { "{else}" }, StringSplitOptions.None);
 
                         if (testResult && bodyParts.Length >= 1)

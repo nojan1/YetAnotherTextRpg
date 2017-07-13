@@ -8,28 +8,47 @@ using System.Linq;
 
 namespace YetAnotherTextRpg.Game
 {
+    public class FunctionReturnValue
+    {
+        public bool Success { get; set; }
+        public string Output { get; set; }
+    }
+
     public static class EmbeddedFunctionsHelper
     {
-        public static bool Conditional(string expression)
+        public static FunctionReturnValue Conditional(string expression)
         {
+            var output = new OutputParameterHelper();
+
             var parameters = new ParameterExpression[]
             {
                 Expression.Parameter(typeof(InventoryParameterHelper), "Inventory"),
                 Expression.Parameter(typeof(VariablesParameterHelper), "Variables"),
-                Expression.Parameter(typeof(PickupsParameterHelper), "Pickup")
+                Expression.Parameter(typeof(PickupsParameterHelper), "Pickup"),
+                Expression.Parameter(typeof(OutputParameterHelper), "Output")
             };
 
             var values = new object[]
             {
                 new InventoryParameterHelper(),
                 new VariablesParameterHelper(),
-                new PickupsParameterHelper()
+                new PickupsParameterHelper(),
+                output
             };
 
             var lambda = DynamicExpressionParser.ParseLambda(false, parameters, null, expression);
             var del = lambda.Compile();
 
-            return (bool)del.DynamicInvoke(values);
+            return new FunctionReturnValue
+            {
+                Success = (bool)del.DynamicInvoke(values),
+                Output = output.Output
+            };
+        }
+
+        public static string Action(string expression)
+        {
+            return Conditional(expression).Output;
         }
     }
 }

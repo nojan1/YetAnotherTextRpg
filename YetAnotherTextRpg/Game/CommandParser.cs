@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using YetAnotherTextRpg.Managers;
 using YetAnotherTextRpg.Models;
 
@@ -17,6 +18,7 @@ namespace YetAnotherTextRpg.Game
         {
             _verbHandlers = new Dictionary<string, Func<string[], CommandParseResult>>()
             {
+                {".*", HandleTrigger },
                 {"go", HandleGo },
                 {"pickup", HandlePickup }
             };
@@ -31,22 +33,31 @@ namespace YetAnotherTextRpg.Game
             if (parts.Length < 2)
                 return new CommandParseResult { Succeeded = false, Output = "I didn't get that" };
 
-            if (!_verbHandlers.ContainsKey(parts[0]))
-                return new CommandParseResult { Succeeded = false, Output = "I don't know how to do that" };
+            foreach(var verbHandler in _verbHandlers)
+            {
+                if (Regex.IsMatch(parts[0], verbHandler.Key))
+                {
+                    var result = verbHandler.Value(parts);
+                    if (result.Continue)
+                        continue;
 
-            return _verbHandlers[parts[0]](parts.Skip(1).ToArray());
+                    return result;
+                }
+            }
+
+            return new CommandParseResult { Succeeded = false, Output = "I don't know how to do that" };
         }
 
         private CommandParseResult HandleGo(string[] args)
         {
-            if (!Enum.TryParse(args[0], true, out Direction direction))
+            if (!Enum.TryParse(args[1], true, out Direction direction))
                 return new CommandParseResult { Succeeded = false, Output = "That is not a direction I know off" };
 
             var exit = GameManager.Instance.ActiveScene.Exits.FirstOrDefault(x => x.Direction == direction);
             if (exit == null)
                 return new CommandParseResult { Succeeded = false, Output = "Can't go that way" };
 
-            if (!string.IsNullOrEmpty(exit.Conditional) && !EmbeddedFunctionsHelper.Conditional(exit.Conditional))
+            if (!string.IsNullOrEmpty(exit.Conditional) && !EmbeddedFunctionsHelper.Conditional(exit.Conditional).Success)
                 return new CommandParseResult { Succeeded = false, Output = "Seems that is not possible to go that way" };
 
 
@@ -56,17 +67,38 @@ namespace YetAnotherTextRpg.Game
 
         private CommandParseResult HandlePickup(string[] args)
         {
-            var pickup = GameManager.Instance.ActiveScene.Pickups.FirstOrDefault(p => p.TriggerWord == args[0].ToLower());
+            var pickup = GameManager.Instance.ActiveScene.Pickups.FirstOrDefault(p => p.Phrase == args[1].ToLower());
             if(pickup == null)
                 return new CommandParseResult { Succeeded = false, Output = "No such thing to pickup" };
 
+            if (!string.IsNullOrEmpty(pickup.Conditional) && !EmbeddedFunctionsHelper.Conditional(pickup.Conditional).Success)
+                return new CommandParseResult { Succeeded = false, Output = "Can't pick that up right now" };
+
             GameManager.Instance.ActiveScene.Pickups.Remove(pickup);
-            GameManager.Instance.State.Variables[$"PICKUP-{pickup.ItemId}"] = "yes";
+            GameManager.Instance.State.Variables[$"PICKUP-{pickup.Item.Id}"] = "yes";
 
-            var item = ItemParser.ParseItem(pickup.ItemId);
-            GameManager.Instance.State.Inventory.Add(item);
+            GameManager.Instance.State.Inventory.Add(pickup.Item);
 
-            return new CommandParseResult { Succeeded = true , Output = $"Picked up \"{item.Name}\""};
+            return new CommandParseResult { Succeeded = true , Output = $"Picked up \"{pickup.Item.Name}\""};
+        }
+
+        private CommandParseResult HandleTrigger(string[] args)
+        {
+            var fullLine = string.Join(" ", args);
+            foreach(var trigger in GameManager.Instance.ActiveScene.Triggers)
+            {
+                if (Regex.IsMatch(fullLine, trigger.Phrase))
+                {
+                    if (!string.IsNullOrEmpty(trigger.Conditional) && EmbeddedFunctionsHelper.Conditional(trigger.Conditional).Success)
+                        continue;
+
+                    var output = EmbeddedFunctionsHelper.Action(trigger.Action);
+
+                    return new CommandParseResult { Succeeded = true, Output = output };
+                }
+            }
+
+            return new CommandParseResult { Continue = true };
         }
     }
 }

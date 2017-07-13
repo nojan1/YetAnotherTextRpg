@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Scene">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Text" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="Triggers" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Trigger" minOccurs="1">
+                <xs:complexType>
+                  <xs:attribute name="Phrase" type="xs:string" use="required" />
+                  <xs:attribute name="Conditional" type="xs:string" use="optional" />
+                  <xs:attribute name="Action" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Exits" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Exit" minOccurs="1">
+                <xs:complexType>
+                  <xs:attribute name="Direction" type="xs:string" use="required" />
+                  <xs:attribute name="To" type="xs:string" use="required" />
+                  <xs:attribute name="Conditional" type="xs:string" use="optional" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Pickups" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Pickup" minOccurs="1">
+                <xs:complexType>
+                  <xs:attribute name="Phrase" type="xs:string" use="required" />
+                  <xs:attribute name="ItemId" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

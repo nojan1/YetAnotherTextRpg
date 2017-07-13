@@ -6,19 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cuit" Version="1.0.7-alpha" />
+    <PackageReference Include="Cuit" Version="1.0.8-alpha" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.7.6" />
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Resources\Items\sword.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Scenes\forest_gate.scene">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Scenes\start.scene">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

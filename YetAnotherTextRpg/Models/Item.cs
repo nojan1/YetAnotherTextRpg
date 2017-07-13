@@ -10,6 +10,7 @@ namespace YetAnotherTextRpg.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public bool Equipped { get; set; }
+        public bool CanEquip { get; set; }
 
         public override string ToString()
         {

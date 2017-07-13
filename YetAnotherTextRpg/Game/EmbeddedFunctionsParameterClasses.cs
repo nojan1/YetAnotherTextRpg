@@ -28,9 +28,13 @@ namespace YetAnotherTextRpg.Game
             }
         }
 
-        public void Set(string key, string value)
+        public bool Set(string key, string value)
         {
+            var existedBefore = GameManager.Instance.State.Variables.ContainsKey(key);
+
             GameManager.Instance.State.Variables[key] = value;
+
+            return existedBefore;
         }
     }
 
@@ -39,6 +43,18 @@ namespace YetAnotherTextRpg.Game
         public bool InScene(string id)
         {
             return GameManager.Instance.State.IsPickupPickedUp(id);
+        }
+    }
+
+    public class OutputParameterHelper
+    {
+        public string Output { get; private set; }
+
+        public bool Set(string output)
+        {
+            Output = output;
+
+            return output != null;
         }
     }
 }
