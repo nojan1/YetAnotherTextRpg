@@ -7,7 +7,7 @@
         <xs:element name="Triggers" minOccurs="0" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="Trigger" minOccurs="1">
+              <xs:element name="Trigger" minOccurs="1" maxOccurs="unbounded">
                 <xs:complexType>
                   <xs:attribute name="Phrase" type="xs:string" use="required" />
                   <xs:attribute name="Conditional" type="xs:string" use="optional" />
@@ -20,7 +20,7 @@
         <xs:element name="Exits" minOccurs="0" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="Exit" minOccurs="1">
+              <xs:element name="Exit" minOccurs="1" maxOccurs="unbounded">
                 <xs:complexType>
                   <xs:attribute name="Direction" type="xs:string" use="required" />
                   <xs:attribute name="To" type="xs:string" use="required" />
@@ -33,7 +33,7 @@
         <xs:element name="Pickups" minOccurs="0" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="Pickup" minOccurs="1">
+              <xs:element name="Pickup" minOccurs="1" maxOccurs="unbounded">
                 <xs:complexType>
                   <xs:attribute name="Phrase" type="xs:string" use="required" />
                   <xs:attribute name="ItemId" type="xs:string" use="required" />

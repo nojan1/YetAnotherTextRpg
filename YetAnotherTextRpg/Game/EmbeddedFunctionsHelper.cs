@@ -18,6 +18,8 @@ namespace YetAnotherTextRpg.Game
     {
         public static FunctionReturnValue Conditional(string expression)
         {
+            expression = expression.Replace(" AND ", " && ");
+
             var output = new OutputParameterHelper();
 
             var parameters = new ParameterExpression[]
@@ -25,7 +27,8 @@ namespace YetAnotherTextRpg.Game
                 Expression.Parameter(typeof(InventoryParameterHelper), "Inventory"),
                 Expression.Parameter(typeof(VariablesParameterHelper), "Variables"),
                 Expression.Parameter(typeof(PickupsParameterHelper), "Pickup"),
-                Expression.Parameter(typeof(OutputParameterHelper), "Output")
+                Expression.Parameter(typeof(OutputParameterHelper), "Output"),
+                Expression.Parameter(typeof(SceneParameterHelper), "Scene")
             };
 
             var values = new object[]
@@ -33,7 +36,8 @@ namespace YetAnotherTextRpg.Game
                 new InventoryParameterHelper(),
                 new VariablesParameterHelper(),
                 new PickupsParameterHelper(),
-                output
+                output,
+                new SceneParameterHelper()
             };
 
             var lambda = DynamicExpressionParser.ParseLambda(false, parameters, null, expression);

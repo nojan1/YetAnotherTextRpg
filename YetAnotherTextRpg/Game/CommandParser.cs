@@ -57,9 +57,12 @@ namespace YetAnotherTextRpg.Game
             if (exit == null)
                 return new CommandParseResult { Succeeded = false, Output = "Can't go that way" };
 
-            if (!string.IsNullOrEmpty(exit.Conditional) && !EmbeddedFunctionsHelper.Conditional(exit.Conditional).Success)
-                return new CommandParseResult { Succeeded = false, Output = "Seems that is not possible to go that way" };
-
+            if (!string.IsNullOrEmpty(exit.Conditional))
+            {
+                var result = EmbeddedFunctionsHelper.Conditional(exit.Conditional);
+                if (!result.Success)
+                    return new CommandParseResult { Succeeded = false, Output = result.Output ?? "Seems that is not possible to go that way" };
+            }
 
             GameManager.Instance.SwitchScene(exit.To);
             return new CommandParseResult { Succeeded = true };
@@ -71,8 +74,12 @@ namespace YetAnotherTextRpg.Game
             if(pickup == null)
                 return new CommandParseResult { Succeeded = false, Output = "No such thing to pickup" };
 
-            if (!string.IsNullOrEmpty(pickup.Conditional) && !EmbeddedFunctionsHelper.Conditional(pickup.Conditional).Success)
-                return new CommandParseResult { Succeeded = false, Output = "Can't pick that up right now" };
+            if (!string.IsNullOrEmpty(pickup.Conditional))
+            {
+                var result = EmbeddedFunctionsHelper.Conditional(pickup.Conditional);
+                if (!result.Success)
+                    return new CommandParseResult { Succeeded = false, Output = result.Output ?? "Can't pick that up right now" };
+            }
 
             GameManager.Instance.ActiveScene.Pickups.Remove(pickup);
             GameManager.Instance.State.Variables[$"PICKUP-{pickup.Item.Id}"] = "yes";
@@ -89,7 +96,13 @@ namespace YetAnotherTextRpg.Game
             {
                 if (Regex.IsMatch(fullLine, trigger.Phrase))
                 {
-                    if (!string.IsNullOrEmpty(trigger.Conditional) && EmbeddedFunctionsHelper.Conditional(trigger.Conditional).Success)
+                    if (!string.IsNullOrEmpty(trigger.Conditional))
+                    {
+                        var result = EmbeddedFunctionsHelper.Conditional(trigger.Conditional);
+                        if (!result.Success)
+                            return new CommandParseResult { Succeeded = false, Output = result.Output ?? "Nothing seems to happen" };
+                    }
+                    if (!string.IsNullOrEmpty(trigger.Conditional) && !EmbeddedFunctionsHelper.Conditional(trigger.Conditional).Success)
                         continue;
 
                     var output = EmbeddedFunctionsHelper.Action(trigger.Action);

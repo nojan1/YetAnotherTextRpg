@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using YetAnotherTextRpg.Game;
 using YetAnotherTextRpg.Managers;
 using YetAnotherTextRpg.Models;
 
@@ -13,6 +14,7 @@ namespace YetAnotherTextRpg.Forms
     {
         private Listbox<Item> itemsBox;
         private Label itemInfo;
+        private Image itemImage;
 
         public override void InstantiateComponents()
         {
@@ -20,15 +22,22 @@ namespace YetAnotherTextRpg.Forms
             itemsBox.Autoselect = false;
             itemsBox.Multiselect = true;
             itemsBox.Width = 30;
-            itemsBox.Height = 15;
+            itemsBox.Height = 20;
             Controls.Add(itemsBox);
 
-            itemInfo = new Label(40, 4);
+            itemInfo = new Label(40, 15);
             itemInfo.Width = 40;
             itemInfo.IsMultiline = true;
             Controls.Add(itemInfo);
 
             Controls.Add(new Label(5, 2) { Text = "Inventory - Press <ESC> to go back", Foreground = ConsoleColor.Gray });
+
+            itemImage = new Image(40, 4);
+            itemImage.Border = Cuit.Helpers.RectangleDrawStyle.Single;
+            itemImage.BorderColor = ConsoleColor.White;
+            itemImage.IsVisible = false;
+
+            Controls.Add(itemImage);
 
             itemsBox.SelectionChanged += ItemsBox_SelectionChanged;
             itemsBox.PreviewChanged += ItemsBox_PreviewChanged;
@@ -48,7 +57,7 @@ namespace YetAnotherTextRpg.Forms
 
         private void ItemsBox_PreviewChanged(object sender, Item e)
         {
-            itemInfo.Text = $"{e.Name}{Environment.NewLine}------------------{Environment.NewLine}{e.Description}";
+            UpdateItemDisplay(e);
         }
 
         private void ItemsBox_SelectionChanged(object sender, Item e)
@@ -64,6 +73,8 @@ namespace YetAnotherTextRpg.Forms
             {
                 selected.Equipped = true;
             }
+
+            UpdateItemDisplay(e);
         }
 
         public override void OnLoaded()
@@ -76,6 +87,14 @@ namespace YetAnotherTextRpg.Forms
                 .Where(i => i.Equipped)
                 .ToList()
                 .ForEach(i => itemsBox.SetSelection(i, true));
+        }
+
+        private void UpdateItemDisplay(Item i)
+        {
+            itemInfo.Text = $"{i.Name}{(i.Equipped ? " (Equipped)" : "")}{Environment.NewLine}------------------{Environment.NewLine}{i.Description}";
+
+            itemImage.IsVisible = true;
+            itemImage.SetImageFromFile(ItemParser.GetItemPath(i));
         }
     }
 }

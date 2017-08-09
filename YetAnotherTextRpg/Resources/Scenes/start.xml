@@ -5,11 +5,16 @@ A beatiful little area full of crap
 
 There seems to be something towards the north
 
-{if !Pickup.InScene("forest_gate_key")}
+{if Pickup.InScene("forest_gate_key")}
 There seems to be a key on the ground
 {/if}
+
+Also there is a weird staircase here...
   </Text>
   <Triggers>
+    <Trigger Phrase="gief sword*"
+             Conditional=""
+             Action='Inventory.Add("sword")'/>
     <Trigger Phrase="scratch .*"
              Conditional="" 
              Action='1 == 1 ? Output.Set("Oh that felt nice") : false'/>
@@ -18,6 +23,8 @@ There seems to be a key on the ground
     <Exit Direction="North"
           To="forest_gate"
           Conditional="" />
+    <Exit Direction="Up"
+          To="meadow"/>
   </Exits>
   <Pickups>
     <Pickup Phrase="key"

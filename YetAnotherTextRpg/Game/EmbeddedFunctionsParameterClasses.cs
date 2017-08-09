@@ -12,6 +12,14 @@ namespace YetAnotherTextRpg.Game
         {
             return GameManager.Instance.State.Inventory.Any(i => i.Id == id);
         }
+
+        public bool Add(string itemId)
+        {
+            var item = ItemParser.ParseItem(itemId);
+            GameManager.Instance.State.Inventory.Add(item);
+
+            return true;
+        }
     }
 
     public class VariablesParameterHelper
@@ -30,11 +38,13 @@ namespace YetAnotherTextRpg.Game
 
         public bool Set(string key, string value)
         {
-            var existedBefore = GameManager.Instance.State.Variables.ContainsKey(key);
-
             GameManager.Instance.State.Variables[key] = value;
+            return true;
+        }
 
-            return existedBefore;
+        public bool IsSet(string key)
+        {
+            return Get(key) != null;
         }
     }
 
@@ -42,7 +52,8 @@ namespace YetAnotherTextRpg.Game
     {
         public bool InScene(string id)
         {
-            return GameManager.Instance.State.IsPickupPickedUp(id);
+            return GameManager.Instance.ActiveScene.Pickups.Any(p => p.ItemId == id) && 
+                   !GameManager.Instance.State.IsPickupPickedUp(id);
         }
     }
 
@@ -53,8 +64,16 @@ namespace YetAnotherTextRpg.Game
         public bool Set(string output)
         {
             Output = output;
+            return true;
+        }
+    }
 
-            return output != null;
+    public class SceneParameterHelper
+    {
+        public bool SwitchTo(string sceneName)
+        {
+            GameManager.Instance.SwitchScene(sceneName);
+            return true;
         }
     }
 }

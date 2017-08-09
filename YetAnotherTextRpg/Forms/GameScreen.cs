@@ -1,6 +1,7 @@
 ﻿using Cuit.Control;
 using Cuit.Screen;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using Cuit;
@@ -17,7 +18,9 @@ namespace YetAnotherTextRpg.Forms
         private Textbox command;
         private OutputBox output;
 
-        private CommandParser _commandParser = new CommandParser();
+        private readonly CommandParser _commandParser = new CommandParser();
+        private readonly List<string> _history = new List<string>();
+        private int _historyPosition = -1;
 
         public override void InstantiateComponents()
         {
@@ -39,7 +42,32 @@ namespace YetAnotherTextRpg.Forms
                 case ConsoleKey.Escape:
                     Application.GoBack();
                     break;
+
+                case ConsoleKey.UpArrow:
+                case ConsoleKey.DownArrow:
+                    if (_history.Any())
+                    {
+                        if(_historyPosition == -1)
+                            _history.Add(command.Text.Trim());
+
+                        _historyPosition += key.Key == ConsoleKey.UpArrow ? 1 : -1;
+
+                        if (_historyPosition < 0)
+                            _historyPosition = _history.Count - 1;
+                        else if (_historyPosition > _history.Count - 1)
+                            _historyPosition = 0;
+
+                        command.Text = _history[_historyPosition];
+                    }
+
+                    break;
                 case ConsoleKey.Enter:
+                    if(_history.Any())
+                        _history.Remove(_history.Last());
+
+                    _historyPosition = -1;
+                    _history.Add(command.Text.Trim());
+
                     if (command.Text.Trim() == "inventory")
                     {
                         Application.SwitchTo<InventoryForm>();
@@ -53,6 +81,7 @@ namespace YetAnotherTextRpg.Forms
                         }
                     }
                     break;
+
                 default:
                     base.HandleKeypress(key);
                     break;
@@ -67,6 +96,12 @@ namespace YetAnotherTextRpg.Forms
 
         private void UpdateDisplay()
         {
+            ////////
+            //TODO: Kick the devs to fix Cuit....
+            Console.Clear();
+            output.IsDirty = true; command.IsDirty = true;
+            ////////
+
             var text = GameManager.Instance.ActiveScene.Text;
 
             var blocks = Regex.Matches(text, @"{(.*?) (.*?)}(([^(\r\n|\r|\n)]*(\r\n|\r|\n)+)+){\/\1}", RegexOptions.Multiline);
@@ -90,7 +125,8 @@ namespace YetAnotherTextRpg.Forms
                         else if (!testResult && bodyParts.Length == 2)
                         {
                             text = text.Replace(block.Value, bodyParts[1].Trim());
-                        }else
+                        }
+                        else
                         {
                             text = text.Replace(block.Value, "");
                         }

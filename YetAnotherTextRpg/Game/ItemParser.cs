@@ -18,5 +18,10 @@ namespace YetAnotherTextRpg.Game
             var itemJson = File.ReadAllText(filename);
             return JsonConvert.DeserializeObject<Item>(itemJson);
         }
+
+        public static string GetItemPath(Item item)
+        {
+            return Path.Combine(ITEM_FOLDER, item.ImagePath);
+        }
     }
 }

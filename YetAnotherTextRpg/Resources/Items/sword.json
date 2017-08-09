@@ -2,5 +2,6 @@
   "Id": "sword",
   "Name": "A sword",
   "CanEquip": "true",
+  "ImagePath": "sword.asc",
   "Description": "A tiny sword...\r\nCan't really hurt anyone with this\r\nSad kitty :/"
 }
