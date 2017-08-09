@@ -1,6 +1,7 @@
 ﻿using Cuit;
 using System;
 using YetAnotherTextRpg.Forms;
+using YetAnotherTextRpg.Managers;
 
 namespace YetAnotherTextRpg
 {
@@ -8,7 +9,10 @@ namespace YetAnotherTextRpg
     {
         static void Main(string[] args)
         {
-            new CuitApplication().Run<MenuForm>();
+            var application = new CuitApplication();
+            DialogueManager.Instanciate(application);
+
+            application.Run<MenuForm>();
         }
     }
 }

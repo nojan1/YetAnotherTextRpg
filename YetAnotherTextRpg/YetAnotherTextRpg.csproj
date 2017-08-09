@@ -13,6 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Resources\Dialogues\vendor_1.xml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Items\sword.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

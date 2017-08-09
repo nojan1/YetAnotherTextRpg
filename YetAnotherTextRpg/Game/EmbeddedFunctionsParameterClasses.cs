@@ -76,4 +76,28 @@ namespace YetAnotherTextRpg.Game
             return true;
         }
     }
+
+    public class DialogueParameterHelper
+    {
+        public bool Open(string name)
+        {
+            DialogueManager.Instance.Open(name);
+
+            return true;
+        }
+
+        public bool Goto(string id)
+        {
+            DialogueManager.Instance.Goto(id);
+
+            return true;
+        }
+
+        public bool Exit()
+        {
+            DialogueManager.Instance.Exit();
+            
+            return true;
+        }
+    }
 }

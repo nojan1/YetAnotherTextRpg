@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Dialogue>
+  <Screen Default="true"
+          Id="0">
+    <Says>
+      Hi and welcome to my store. I am bill and I rock.
+    </Says>
+    <Choices>
+      <Choice Action='Dialogue.Goto("10")'>
+        What do you have to sell?
+      </Choice>
+      <Choice Action="Dialogue.Exit()">
+        I don't wanna speak to you any longer
+      </Choice>
+    </Choices>
+  </Screen>
+  <Screen Id="10">
+    <Says>
+      Only the best for you!
+       - Sword 10 rubels
+       - Shield 20 rubels
+       - Eating with telekinesis... priceless
+    </Says>
+    <Choices>
+      <Choice Action="true">
+        The sword please
+      </Choice>
+      <Choice Action="true">
+        Gief the shield
+      </Choice>
+      <Choice Action='Dialogue.Goto("11")'>
+        The telekinesis thingy
+      </Choice>
+      <Choice Action='Dialogue.Goto("0")'>
+        Nevermind
+      </Choice>
+    </Choices>
+  </Screen>
+  <Screen Id='11'>
+    <Says>
+      I told you it was priceless!
+    </Says>
+    <Choices>
+      <Choice Action='Dialogue.Goto("10")'>
+        Ooops sorry, my bad
+      </Choice>
+    </Choices>
+  </Screen>
+</Dialogue>

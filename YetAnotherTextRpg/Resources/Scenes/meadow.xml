@@ -5,7 +5,7 @@ I don't know where I am but there is a vendor here
   </Text>
   <Triggers>
     <Trigger Phrase="talk( to)? vendor"
-             Action='Output.Set("Come back later when I am not drunk")' />
+             Action='Dialogue.Open("vendor_1")' />
     
     <Trigger Phrase="steal( from)? vendor"
              Action='!Inventory.Contains("sausage") ? (Inventory.Add("sausage") &amp;&amp; Output.Set("Ooohh I got something long and squischy")) : Output.Set("He has none left :(")' />
