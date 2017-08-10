@@ -26,7 +26,7 @@ namespace YetAnotherTextRpg.Forms
             Controls.Add(itemsBox);
 
             itemInfo = new Label(40, 15);
-            itemInfo.Width = 40;
+            itemInfo.Width = 50;
             itemInfo.IsMultiline = true;
             Controls.Add(itemInfo);
 

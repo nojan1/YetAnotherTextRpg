@@ -12,9 +12,6 @@ There seems to be a key on the ground
 Also there is a weird staircase here...
   </Text>
   <Triggers>
-    <Trigger Phrase="gief sword*"
-             Conditional=""
-             Action='Inventory.Add("sword")'/>
     <Trigger Phrase="scratch .*"
              Conditional="" 
              Action='1 == 1 ? Output.Set("Oh that felt nice") : false'/>

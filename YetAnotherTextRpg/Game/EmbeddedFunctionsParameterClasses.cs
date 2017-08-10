@@ -20,6 +20,11 @@ namespace YetAnotherTextRpg.Game
 
             return true;
         }
+
+        public bool HasEnoughMoney(int requiredAmount)
+        {
+            return GameManager.Instance.State.HasEnoughMoney(requiredAmount);
+        }
     }
 
     public class VariablesParameterHelper
@@ -39,6 +44,14 @@ namespace YetAnotherTextRpg.Game
         public bool Set(string key, string value)
         {
             GameManager.Instance.State.Variables[key] = value;
+            return true;
+        }
+
+        public bool Increment(string key, int amount)
+        {
+            var value = GameManager.Instance.State.GetVariableValue<int>(key);
+            Set(key, (value + amount).ToString());
+
             return true;
         }
 

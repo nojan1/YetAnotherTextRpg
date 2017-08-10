@@ -17,15 +17,18 @@
   <Screen Id="10">
     <Says>
       Only the best for you!
-       - Sword 10 rubels
-       - Shield 20 rubels
-       - Eating with telekinesis... priceless
+{if !Inventory.Contains("sword")}
+      - Sword 10 rubels
+{/if}
+      - Shield 20 rubels
+      - Eating with telekinesis... priceless
     </Says>
     <Choices>
-      <Choice Action="true">
+      <Choice Action='Inventory.HasEnoughMoney(10) ? Inventory.Add("sword") AND Variables.Increment("money", -10) AND Output.Set("Here you go") AND Dialogue.Goto("10") : Dialogue.Goto("13")'
+              DisplayCondition='!Inventory.Contains("sword")'>
         The sword please
       </Choice>
-      <Choice Action="true">
+      <Choice Action='Dialogue.Goto("12")'>
         Gief the shield
       </Choice>
       <Choice Action='Dialogue.Goto("11")'>
@@ -43,6 +46,26 @@
     <Choices>
       <Choice Action='Dialogue.Goto("10")'>
         Ooops sorry, my bad
+      </Choice>
+    </Choices>
+  </Screen>
+  <Screen Id='12'>
+    <Says>
+      Sorry I can not seem to find it. My nephew must have hid it...
+    </Says>
+    <Choices>
+      <Choice Action='Dialogue.Goto("10")'>
+        I should have you decompiled for this!
+      </Choice>
+    </Choices>
+  </Screen>
+  <Screen Id='13'>
+    <Says>
+      That is not enough money sir
+    </Says>
+    <Choices>
+      <Choice Action='Dialogue.Goto("10")'>
+        Oops, sorry... Counting is hard!
       </Choice>
     </Choices>
   </Screen>
