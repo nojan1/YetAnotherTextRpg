@@ -3,6 +3,7 @@ using Cuit.Control.Behaviors;
 using Cuit.Screen;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using YetAnotherTextRpg.Managers;
 
@@ -19,6 +20,7 @@ namespace YetAnotherTextRpg.Forms
 
     class MenuForm : SingleFocusControlFormScreen
     {
+        private SaveManager _saveManager = new SaveManager();
         private Listbox<MenuAction> _menuList;
 
         public override void InstantiateComponents()
@@ -33,7 +35,8 @@ namespace YetAnotherTextRpg.Forms
             var titleLabel = new Label((Application.Width / 2) - (title.Length / 2), 8);
             titleLabel.Text = title;
             titleLabel.Foreground = ConsoleColor.Green;
-            Controls.Add(titleLabel);        }
+            Controls.Add(titleLabel);
+        }
 
         private void _menuList_SelectionChanged(object sender, MenuAction e)
         {
@@ -50,10 +53,12 @@ namespace YetAnotherTextRpg.Forms
 
                     break;
                 case MenuAction.Save:
-
+                    var saves = _saveManager.ListSaves();
+                    _saveManager.SaveGame(saves.Any() ? saves.Max(s => s.Slot) + 1 : 1);
+                    Application.SwitchTo<GameScreen>();
                     break;
                 case MenuAction.Load:
-
+                    Application.SwitchTo<LoadForm>();
                     break;
                 case MenuAction.Exit:
                     Application.Quit = true;

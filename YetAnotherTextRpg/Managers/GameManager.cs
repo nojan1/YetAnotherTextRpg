@@ -30,7 +30,15 @@ namespace YetAnotherTextRpg.Managers
         public void NewGame()
         {
             State = new GameState();
+            State.Inventory.Add(new MoneyItem());
+
             SwitchScene("start");
+        }
+
+        public void StartLoadedGame(GameState state)
+        {
+            State = state;
+            SwitchScene(state.CurrentScene);
         }
 
         public void SwitchScene(string sceneName)

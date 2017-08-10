@@ -8,7 +8,7 @@ I don't know where I am but there is a vendor here
              Action='Dialogue.Open("vendor_1")' />
     
     <Trigger Phrase="steal( from)? vendor"
-             Action='!Inventory.Contains("sausage") ? (Inventory.Add("sausage") &amp;&amp; Output.Set("Ooohh I got something long and squischy")) : Output.Set("He has none left :(")' />
+             Action='!Inventory.Contains("sausage") ? (Inventory.Add("sausage") AND Output.Set("Ooohh I got something long and squischy")) : Output.Set("He has none left :(")' />
   </Triggers>
   <Exits>
     <Exit Direction="Down"

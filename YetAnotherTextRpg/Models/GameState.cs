@@ -31,10 +31,5 @@ namespace YetAnotherTextRpg.Models
                 return default(T);
             }
         }
-
-        public GameState()
-        {
-            Inventory.Add(new MoneyItem());
-        }
     }
 }

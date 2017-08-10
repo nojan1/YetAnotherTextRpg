@@ -1,0 +1,7 @@
+﻿{
+  "Id": "sausage",
+  "Name": "Bratwurst",
+  "CanEquip": "false",
+  "ImagePath": "sausage.asc",
+  "Description": "Long, squishy and surprisingly life like"
+}
