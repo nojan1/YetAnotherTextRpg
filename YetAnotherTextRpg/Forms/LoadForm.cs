@@ -20,9 +20,9 @@ namespace YetAnotherTextRpg.Forms
             _savesBox = new Listbox<SaveGameListing>(5, 4);
             _savesBox.Width = Application.Width - 8; ;
             _savesBox.Height = 20;
-            Controls.Add(_savesBox);
+            RegisterControl(_savesBox);
 
-            Controls.Add(new Label(5, 2) { Text = "Saved games, pick game to load - Press <ESC> to go back", Foreground = ConsoleColor.Gray });
+            RegisterControl(new Label(5, 2) { Text = "Saved games, pick game to load - Press <ESC> to go back", Foreground = ConsoleColor.Gray });
 
             _savesBox.SelectionChanged += _savesBox_SelectionChanged;
         }

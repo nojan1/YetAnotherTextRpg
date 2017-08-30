@@ -29,13 +29,13 @@ namespace YetAnotherTextRpg.Forms
             _menuList.Width = 30;
             //_menuList.Height = 8;
             _menuList.SelectionChanged += _menuList_SelectionChanged;
-            Controls.Add(_menuList);
+            RegisterControl(_menuList);
 
             var title = "Welcome to YetAnotherTextRPG";
             var titleLabel = new Label((Application.Width / 2) - (title.Length / 2), 8);
             titleLabel.Text = title;
             titleLabel.Foreground = ConsoleColor.Green;
-            Controls.Add(titleLabel);
+            RegisterControl(titleLabel);
         }
 
         private void _menuList_SelectionChanged(object sender, MenuAction e)
@@ -86,6 +86,7 @@ namespace YetAnotherTextRpg.Forms
             _menuList.Items.Add(MenuAction.Load);
             _menuList.Items.Add(MenuAction.Exit);
 
+            _menuList.OnGotFocus();
         }
     }
 }

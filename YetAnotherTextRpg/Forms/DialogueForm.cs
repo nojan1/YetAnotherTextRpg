@@ -37,12 +37,12 @@ namespace YetAnotherTextRpg.Forms
             _choices.Width = Application.Width - 10;
             _choices.Height = 10;
             _choices.SelectionChanged += _choices_SelectionChanged;
-            Controls.Add(_choices);
+            RegisterControl(_choices);
 
             _output = new Label(5, 2);
             _output.Width = Application.Width - 10;
             _output.IsMultiline = true;
-            Controls.Add(_output);
+            RegisterControl(_output);
 
             UpdateDialogue(_dialogue.Screen.First(s => s.Default));
         }

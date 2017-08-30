@@ -23,21 +23,21 @@ namespace YetAnotherTextRpg.Forms
             itemsBox.Multiselect = true;
             itemsBox.Width = 30;
             itemsBox.Height = 20;
-            Controls.Add(itemsBox);
+            RegisterControl(itemsBox);
 
             itemInfo = new Label(40, 15);
             itemInfo.Width = 50;
             itemInfo.IsMultiline = true;
-            Controls.Add(itemInfo);
+            RegisterControl(itemInfo);
 
-            Controls.Add(new Label(5, 2) { Text = "Inventory - Press <ESC> to go back", Foreground = ConsoleColor.Gray });
+            RegisterControl(new Label(5, 2) { Text = "Inventory - Press <ESC> to go back", Foreground = ConsoleColor.Gray });
 
             itemImage = new Image(40, 4);
             itemImage.Border = Cuit.Helpers.RectangleDrawStyle.Single;
             itemImage.BorderColor = ConsoleColor.White;
             itemImage.IsVisible = false;
 
-            Controls.Add(itemImage);
+            RegisterControl(itemImage);
 
             itemsBox.SelectionChanged += ItemsBox_SelectionChanged;
             itemsBox.PreviewChanged += ItemsBox_PreviewChanged;

@@ -29,11 +29,11 @@ namespace YetAnotherTextRpg.Forms
 
             command = new Textbox(5, 2);
             command.Width = Console.BufferWidth - 10;
-            Controls.Add(command);
+            RegisterControl(command);
 
             output = new OutputBox(6, 6);
             output.Width = Console.BufferWidth - 12;
-            Controls.Add(output);
+            RegisterControl(output);
         }
 
         public override void HandleKeypress(ConsoleKeyInfo key)
