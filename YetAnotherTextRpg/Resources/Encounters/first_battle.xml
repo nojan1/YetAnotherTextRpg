@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<Encounter OnVictoryAction='Output.Set("hello")'
+           OnDefeatAction='Output.Set("Fuuu") AND false'>
+  <InitialText>Some ugly guys appear</InitialText>
+  <Enemies>
+    <Enemy Name="Small dragon"
+           ImagePath="dragon.asc"
+           Health="32"
+           Armor="3"
+           Defense="5"
+           Attack="10"
+           Strength="6"/>
+  </Enemies>
+</Encounter>

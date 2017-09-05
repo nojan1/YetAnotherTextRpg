@@ -29,7 +29,9 @@ namespace YetAnotherTextRpg.Game
                 Expression.Parameter(typeof(PickupsParameterHelper), "Pickup"),
                 Expression.Parameter(typeof(OutputParameterHelper), "Output"),
                 Expression.Parameter(typeof(SceneParameterHelper), "Scene"),
-                Expression.Parameter(typeof(DialogueParameterHelper), "Dialogue")
+                Expression.Parameter(typeof(DialogueParameterHelper), "Dialogue"),
+                Expression.Parameter(typeof(EncounterParameterHelper), "Encounter"),
+                Expression.Parameter(typeof(RandomParameterHelper), "Random")
             };
 
             var values = new object[]
@@ -39,7 +41,9 @@ namespace YetAnotherTextRpg.Game
                 new PickupsParameterHelper(),
                 output,
                 new SceneParameterHelper(),
-                new DialogueParameterHelper()
+                new DialogueParameterHelper(),
+                new EncounterParameterHelper(),
+                new RandomParameterHelper()
             };
 
             var lambda = DynamicExpressionParser.ParseLambda(false, parameters, null, expression);

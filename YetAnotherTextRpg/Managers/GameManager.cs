@@ -32,7 +32,19 @@ namespace YetAnotherTextRpg.Managers
             State = new GameState();
             State.Inventory.Add(new MoneyItem());
 
+            State.Health = 40;
+            State.MaxHealth = 40;
+            State.Variables["armor"] = "5";
+            State.Variables["attack"] = "8";
+            State.Variables["defense"] = "6";
+            State.Variables["strength"] = "7";
+
             SwitchScene("start");
+        }
+
+        public void ClearState()
+        {
+            State = null;
         }
 
         public void StartLoadedGame(GameState state)

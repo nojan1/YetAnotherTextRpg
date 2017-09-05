@@ -10,6 +10,24 @@ namespace YetAnotherTextRpg.Models
         public List<Item> Inventory { get; set; } = new List<Item>();
         public string CurrentScene { get; set; }
 
+        public int Money
+        {
+            get => GetVariableValue<int>("money");
+            set => Variables["money"] = value.ToString();
+        }
+
+        public int MaxHealth
+        {
+            get => GetVariableValue<int>("maxhealth");
+            set => Variables["maxhealth"] = value.ToString();
+        }
+
+        public int Health
+        {
+            get => GetVariableValue<int>("health");
+            set => Variables["health"] = value.ToString();
+        }
+
         public bool IsPickupPickedUp(string id)
         {
             return Variables.ContainsKey($"PICKUP-{id}");
@@ -17,7 +35,7 @@ namespace YetAnotherTextRpg.Models
 
         public bool HasEnoughMoney(int requiredAmount)
         {
-            return GetVariableValue<int>("money") >= requiredAmount;
+            return Money >= requiredAmount;
         }
 
         public T GetVariableValue<T>(string name)
@@ -30,6 +48,17 @@ namespace YetAnotherTextRpg.Models
             {
                 return default(T);
             }
+        }
+
+        public CombatProfile GetPlayerCombatProfile()
+        {
+            return new CombatProfile
+            {
+                Armor = GetVariableValue<int>("armor"),
+                Attack = GetVariableValue<int>("attack"),
+                Defense = GetVariableValue<int>("defense"),
+                Strength = GetVariableValue<int>("strength"),
+            };
         }
     }
 }

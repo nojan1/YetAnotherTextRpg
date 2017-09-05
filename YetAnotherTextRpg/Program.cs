@@ -11,6 +11,7 @@ namespace YetAnotherTextRpg
         {
             var application = new CuitApplication();
             DialogueManager.Instanciate(application);
+            EncounterManager.Instanciate(application);
 
             application.Run<MenuForm>();
         }

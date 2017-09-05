@@ -20,7 +20,7 @@ namespace YetAnotherTextRpg.Forms
 
     class MenuForm : SingleFocusControlFormScreen
     {
-        private SaveManager _saveManager = new SaveManager();
+        private readonly SaveManager _saveManager = new SaveManager();
         private Listbox<MenuAction> _menuList;
 
         public override void InstantiateComponents()

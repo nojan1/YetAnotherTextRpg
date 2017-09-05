@@ -89,6 +89,11 @@ namespace YetAnotherTextRpg.Forms
             }
         }
 
+        public void AppendOutput(string outputText)
+        {
+            output.AddOutput(outputText);
+        }
+
         public override void OnLoaded()
         {
             base.OnLoaded();

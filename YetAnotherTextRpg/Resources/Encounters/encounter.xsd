@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Encounter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="InitialText" type="xs:string" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="Enemies" minOccurs="1" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Enemy" minOccurs="1" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="Name" type="xs:string" use="required" />
+                  <xs:attribute name="ImagePath" type="xs:string" use="required" />
+                  <xs:attribute name="Health" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="Strength" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="Attack" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="Defense" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="Armor" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="OnDeathAction" type="xs:string" use="optional" />
+                  <xs:attribute name="OnTurnAction" type="xs:string" use="optional" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="CanRun" type="xs:boolean" default="true" use="optional" />
+      <xs:attribute name="RunConditional" type="xs:string" use="optional" />
+      <xs:attribute name="OnVictoryAction" type="xs:string" use="optional" />
+      <xs:attribute name="OnDefeatAction" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -113,4 +113,42 @@ namespace YetAnotherTextRpg.Game
             return true;
         }
     }
+
+    public class EncounterParameterHelper
+    {
+        public bool Open(string name)
+        {
+            EncounterManager.Instance.LoadEncounter(name);
+
+            return true;
+        }
+
+        
+        public bool Exit()
+        {
+            EncounterManager.Instance.Exit();
+
+            return true;
+        }
+    }
+
+    public class RandomParameterHelper
+    {
+        private readonly Random _random = new Random();
+
+        public int Range(int max)
+        {
+            return _random.Next(max);
+        }
+
+        public int Range(int min, int max)
+        {
+            return _random.Next(min, max);
+        }
+
+        public bool YesNo()
+        {
+            return _random.Next(2) == 1;
+        }
+    }
 }
