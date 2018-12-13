@@ -102,13 +102,7 @@ namespace YetAnotherTextRpg.Forms
 
         private void UpdateDisplay()
         {
-            ////////
-            //TODO: Kick the devs to fix Cuit....
-            Console.Clear();
-            output.IsDirty = true; command.IsDirty = true;
-            ////////
-
-            output.Text = OutputHelpers.ProcessOutput(GameManager.Instance.ActiveScene.Text);
+            output.SetOutput(OutputHelpers.ProcessOutput(GameManager.Instance.ActiveScene.Text));
         }
 
         private bool HandleCommand(string command)

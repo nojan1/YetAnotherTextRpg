@@ -20,20 +20,35 @@ namespace YetAnotherTextRpg.Controls
 
         public void AddOutput(string output)
         {
-            _bufferQuene.Enqueue(output);
-
-            if(MaxRows > 0 && _bufferQuene.Count > MaxRows)
-            {
-                _bufferQuene.Dequeue();
-            }
-
+            AddLinesToBuffer(output);
             SyncBuffer();
+        }
+
+        public void SetOutput(string output)
+        {
+            _bufferQuene.Clear();
+            AddOutput(output);
         }
 
         public void Clear()
         {
             _bufferQuene.Clear();
             SyncBuffer();
+        }
+
+        private void AddLinesToBuffer(string output)
+        {
+            output.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)
+                .ToList()
+                .ForEach(l =>
+                {
+                    _bufferQuene.Enqueue(l);
+
+                    if (MaxRows > 0 && _bufferQuene.Count > MaxRows)
+                    {
+                        _bufferQuene.Dequeue();
+                    }
+                });
         }
 
         private void SyncBuffer()
